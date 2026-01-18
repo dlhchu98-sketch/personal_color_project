@@ -43,7 +43,11 @@ for _, row in df.iterrows():
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     h, w, _ = img_rgb.shape
 
-    # tính màu trung bình của từng vùng: skin, eyes, brows, hair
+# Các vùng màu (skin, eyes, brows, hair) được xác định bằng cách cắt ảnh
+# theo tỷ lệ hình học phổ biến của khuôn mặt trong ảnh chân dung chính diện.
+# Phương pháp heuristic này nhằm trích xuất màu trung bình đại diện,
+# không yêu cầu phát hiện landmark để đơn giản hóa tiền xử lý.
+
     skin = img_rgb[int(h*0.3):int(h*0.7), int(w*0.3):int(w*0.7)].mean(axis=(0,1)).astype(int)
     eyes = img_rgb[int(h*0.25):int(h*0.45), int(w*0.25):int(w*0.75)].mean(axis=(0,1)).astype(int)
     brows = img_rgb[int(h*0.20):int(h*0.30), int(w*0.25):int(w*0.75)].mean(axis=(0,1)).astype(int)
