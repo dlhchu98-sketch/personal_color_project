@@ -30,6 +30,7 @@ face_mesh = mp_face_mesh.FaceMesh(
 )
 
 # các index landmark để cắt ROI
+# Các chỉ số landmark là ID cố định, không phải giá trị học được hay tham số cần tối ưu
 FOREHEAD = [10, 338, 297, 332, 284, 251, 389, 356]
 LEFT_CHEEK = [234, 93, 132, 58, 172, 136, 150]
 RIGHT_CHEEK = [454, 323, 361, 288, 397, 365, 379]
@@ -38,6 +39,7 @@ RIGHT_CHEEK = [454, 323, 361, 288, 397, 365, 379]
 def crop_roi(img, landmarks, indices):
     h, w, _ = img.shape
     points = []
+
     for idx in indices:
         lm = landmarks[idx]
         x = int(lm.x * w)
@@ -55,16 +57,18 @@ def crop_roi(img, landmarks, indices):
 def normalize_lighting(img):
     lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
     l, a, b = cv2.split(lab)
+
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
     l = clahe.apply(l)
+
     img = cv2.merge((l, a, b))
     return cv2.cvtColor(img, cv2.COLOR_LAB2BGR)
 
 # tiền xử lý ảnh: blur, ánh sáng, resize, normalize pixel
 def preprocess_image(img):
-    img = cv2.GaussianBlur(img, (5, 5), 0)   # giảm nhiễu
-    img = normalize_lighting(img)            # cân bằng ánh sáng
-    img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))  # resize chuẩn
+    img = cv2.GaussianBlur(img, (5, 5), 0)      # giảm nhiễu
+    img = normalize_lighting(img)               # cân bằng ánh sáng
+    img = cv2.resize(img, (IMG_SIZE, IMG_SIZE)) # resize chuẩn
     img = img.astype("float32") / 255.0         # normalize pixel
     return img
 
