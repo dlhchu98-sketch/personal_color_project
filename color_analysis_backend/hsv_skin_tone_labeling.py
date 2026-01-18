@@ -87,7 +87,7 @@ with open(csv_file, "w", newline="", encoding="utf-8") as f:
     writer.writerow(["image_path", "season"])
     writer.writerows(rows)
 
-print("\nXong rồi")
+print("Xong rồi")
 print(f"Tổng ảnh xử lý: {len(rows)}")
 print("Phân bố theo mùa:")
 for s in SEASONS:
