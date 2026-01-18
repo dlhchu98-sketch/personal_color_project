@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use("TkAgg")  # ép backend GUI để hiển thị biểu đồ
+matplotlib.use("TkAgg") 
 
 import pandas as pd
 import numpy as np
