@@ -17,7 +17,7 @@ OUT_FILES = {
     "test_balanced":    os.path.join(PROCESSED_DIR, "test_balanced.csv"),
 }
 
-TEST_SIZE = 0.2      # 20% dữ liệu dùng làm test
+TEST_SIZE = 0.3      # 30% dữ liệu dùng làm test 
 RANDOM_STATE = 42    # để kết quả split ổn định
 
 # hàm tách dữ liệu train / test và lưu ra CSV
@@ -36,7 +36,6 @@ def split_and_save(csv_path, train_out, test_out):
         stratify=y
     )
 
-    # tạo DataFrame cho train và test
     train_df = pd.DataFrame({
         "image_path": X_train,
         "label": y_train
@@ -47,11 +46,9 @@ def split_and_save(csv_path, train_out, test_out):
         "label": y_test
     })
 
-    # lưu ra CSV
     train_df.to_csv(train_out, index=False)
     test_df.to_csv(test_out, index=False)
 
-    # in thông báo
     print(f"\nSplit xong: {os.path.basename(csv_path)}")
     print(f"  Train: {len(train_df)} ảnh")
     print(f"  Test : {len(test_df)} ảnh")
@@ -72,4 +69,4 @@ split_and_save(
     OUT_FILES["test_balanced"]
 )
 
-print("\nHoàn tất tách train / test")
+print("Hoàn tất tách train / test")
